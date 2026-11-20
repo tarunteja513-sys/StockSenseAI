@@ -1,0 +1,50 @@
+[
+    {
+        "company": "Reliance Industries",
+        "symbol": "RELIANCE",
+        "exchange": "NSE",
+        "sector": "Energy",
+        "price": 1450.5,
+        "volume": 0,
+        "isin": "",
+        "listing_date": "",
+        "status": "ACTIVE",
+        "segment": "MAIN"
+    },
+    {
+        "company": "Tata Consultancy Services",
+        "symbol": "TCS",
+        "exchange": "NSE",
+        "sector": "IT",
+        "price": 3200.0,
+        "volume": 0,
+        "isin": "",
+        "listing_date": "",
+        "status": "ACTIVE",
+        "segment": "MAIN"
+    },
+    {
+        "company": "Infosys",
+        "symbol": "INFY",
+        "exchange": "NSE",
+        "sector": "Information Technology",
+        "price": 1500.0,
+        "volume": 0,
+        "isin": "",
+        "listing_date": "",
+        "status": "ACTIVE",
+        "segment": "MAIN"
+    },
+    {
+        "company": "HDFC Bank",
+        "symbol": "HDFCBANK",
+        "exchange": "NSE",
+        "sector": "Banking",
+        "price": 1700.0,
+        "volume": 0,
+        "isin": "",
+        "listing_date": "",
+        "status": "ACTIVE",
+        "segment": "MAIN"
+    }
+]
