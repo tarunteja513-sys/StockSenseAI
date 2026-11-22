@@ -34,6 +34,7 @@ def first_value(row, *names):
 def read_exchange_csv(file_path, exchange):
     """Read and standardize company records from an exchange CSV."""
     file_path = Path(file_path)
+    exchange = exchange.upper()
 
     if not file_path.exists():
         return []
@@ -54,18 +55,29 @@ def read_exchange_csv(file_path, exchange):
                 company_name = first_value(row, "NAME OF COMPANY")
                 series = first_value(row, "SERIES")
                 security_code = ""
+
+                isin = first_value(row, "ISIN NUMBER", "ISIN NO", "ISIN")
+                listing_date = first_value(
+                    row, "DATE OF LISTING", "LISTING DATE"
+                )
+                face_value = first_value(row, "FACE VALUE")
+                market_lot = first_value(row, "MARKET LOT")
+                status = first_value(row, "STATUS") or "UNKNOWN"
+
             elif exchange == "BSE":
-                symbol = first_value(
-                    row, "SECURITY ID", "SC_CODE", "SYMBOL"
+                symbol = first_value(row, "TCKRSYMB")
+                company_name = first_value(row, "FININSTRMNM")
+                series = first_value(row, "SCTYSRS")
+                security_code = first_value(row, "FININSTRMID")
+
+                isin = first_value(row, "ISIN")
+                listing_date = first_value(row, "LISTGDT")
+                face_value = first_value(row, "PARVAL")
+                market_lot = first_value(
+                    row, "NEWBRDLOTQTY", "MINLOT"
                 )
-                company_name = first_value(
-                    row, "ISSUER NAME", "SECURITY NAME",
-                    "NAME OF COMPANY", "COMPANY NAME"
-                )
-                series = first_value(row, "GROUP", "SERIES")
-                security_code = first_value(
-                    row, "SECURITY CODE", "SC_CODE"
-                )
+                status = first_value(row, "STS") or "UNKNOWN"
+
             else:
                 raise ValueError(f"Unsupported exchange: {exchange}")
 
@@ -78,22 +90,19 @@ def read_exchange_csv(file_path, exchange):
                 "exchange": exchange,
                 "sector": first_value(row, "INDUSTRY", "SECTOR") or "UNKNOWN",
                 "series": series or "UNKNOWN",
-                "isin": first_value(row, "ISIN NUMBER", "ISIN NO", "ISIN"),
-                "listing_date": first_value(
-                    row, "DATE OF LISTING", "LISTING DATE"
-                ),
-                "face_value": first_value(row, "FACE VALUE"),
+                "isin": isin,
+                "listing_date": listing_date,
+                "face_value": face_value,
                 "paid_up_value": first_value(row, "PAID UP VALUE"),
-                "market_lot": first_value(row, "MARKET LOT"),
+                "market_lot": market_lot,
                 "security_code": security_code,
-                "status": first_value(row, "STATUS") or "UNKNOWN",
+                "status": status,
                 "source": exchange
             }
 
             companies.append(company)
 
     return companies
-
 
 def merge_companies(*company_lists):
     """Merge records without duplicate exchange-symbol combinations."""
